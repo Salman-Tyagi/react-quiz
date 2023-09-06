@@ -7,15 +7,17 @@ import StartScreen from './StartScreen';
 import Question from './Question';
 import NextQuestion from './NextQuestion';
 import Progress from './Progess';
+import FinishScreen from './FinishScreen';
 
 const initialState = {
   questions: [],
 
-  // "loading", "ready", "error", "active",
+  // "loading", "error", "ready", "active", "restart"
   status: 'loading',
   index: 0,
   answer: null,
   points: 0,
+  highScore: 0,
 };
 
 function reducer(state, action) {
@@ -58,16 +60,30 @@ function reducer(state, action) {
         answer: null,
       };
 
+    case 'finished':
+      return {
+        ...state,
+        status: 'finish',
+        highScore:
+          state.points > state.highScore ? state.points : state.highScore,
+      };
+
+    case 'restart':
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: 'ready',
+        highScore: state.highScore,
+      };
+
     default:
       throw new Error('Unknown actions');
   }
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ questions, status, index, answer, points, highScore }, dispatch] =
+    useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce(
@@ -108,11 +124,18 @@ export default function App() {
             <NextQuestion
               dispatch={dispatch}
               answer={answer}
+              index={index}
               numQuestions={numQuestions}
-              points={points}
-              maxPossiblePoints={maxPossiblePoints}
             />
           </>
+        )}
+        {status === 'finish' && (
+          <FinishScreen
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={highScore}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>
