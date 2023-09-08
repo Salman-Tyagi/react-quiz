@@ -12,7 +12,7 @@ import FinishScreen from './FinishScreen';
 import Footer from './Footer';
 import Timer from './Timer';
 
-const SECONDS_PER_QUESTION = 0.4;
+const SECONDS_PER_QUESTION = 30;
 
 const initialState = {
   questions: [],
@@ -46,7 +46,6 @@ function reducer(state, action) {
         ...state,
         status: 'active',
         secondsRemaining: state.questions.length * SECONDS_PER_QUESTION,
-        highScore: JSON.parse(localStorage.getItem('highScore')),
       };
 
     case 'newAnswer':
@@ -77,8 +76,6 @@ function reducer(state, action) {
       };
 
     case 'restart':
-      localStorage.setItem('highScore', JSON.stringify(state.highScore));
-
       return {
         ...initialState,
         questions: state.questions,

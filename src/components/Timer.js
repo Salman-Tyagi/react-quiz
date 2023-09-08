@@ -24,15 +24,10 @@ export default function Timer({ secondsRemaining, dispatch, highScore }) {
   );
 
   return (
-    <>
-      <div className='timer'>
-        {mins < 10 && 0}
-        {mins}:{seconds < 10 && 0}
-        {seconds}
-      </div>
-      <div className='start-highscore'>
-        <p>Highscore: {highScore}</p>
-      </div>
-    </>
+    <div className='timer'>
+      {mins < 10 && 0}
+      {mins}:{seconds < 10 && 0}
+      {seconds}
+    </div>
   );
 }
