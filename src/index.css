@@ -187,6 +187,12 @@ progress {
   margin-right: 4px;
 }
 
+.start-highscore {
+  font-size: 2rem;
+  text-align: end;
+  vertical-align: center;
+}
+
 .highscore {
   font-size: 1.8rem;
   text-align: center;
